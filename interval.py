@@ -45,42 +45,26 @@ True
 
 import copy
 
-class Smallest:
-  """Represents the smallest value
-  
-  This type doesn't do much; it implements a pseudo-value that's smaller
-  than everything but itself.
-  
-  >>> negInf = Smallest()
-  >>> smallest = Smallest()
-  >>> -264 < negInf
-  False
-  >>> -264 == negInf
-  False
-  >>> -264 > negInf
-  True
-  >>> negInf < negInf
-  False
-  >>> negInf == smallest
-  True
-  """
-  
-  def __neg__(self):
-    """Returns the largest value
-    
-    The opposite of negative infinity is infinity, the largest value.
 
-    >>> print(-Smallest())
-    ~
+class Smallest:
     """
-    return Largest()
-    
-  def __cmp__(self, other):
-    """Compares this with another object
-    
-    Always indicates that self is less than other, unless both are of 
-    type Smallest, in which case they are equal.
-    
+    Represents the smallest value
+
+    This type doesn't do much; it implements a pseudo-value that's smaller
+    than everything but itself.
+
+    >>> negInf = Smallest()
+    >>> smallest = Smallest()
+    >>> -264 < negInf
+    False
+    >>> -264 == negInf
+    False
+    >>> -264 > negInf
+    True
+    >>> negInf < negInf
+    False
+    >>> negInf == smallest
+    True
     >>> 0 < Smallest()
     False
     >>> -9999999 < Smallest()
@@ -92,74 +76,100 @@ class Smallest:
     >>> Smallest() == Smallest()
     True
     """
-    if other.__class__ == self.__class__:
-        retval = 0
-    else:
-        retval = -1
-    return retval
-    
-  def __str__(self):
-      """Returns a printable representation of this value
-      
-      The string for the smallest number is -~, which means negative infinity.
-      
-      >>> print(Smallest())
-      -~
-      """
-      return "-~"
-    
-  def __repr__(self):
-    """Returns an evaluable representation of the object
-    
-    The representation of the smallest number is -Inf, which means 
-    negative infinity.
 
-    >>> Smallest()
-    -Inf
-    """
-    return "-Inf"
-    
-  def __hash__(self):
-    "Returns a value that can be used for generating hashes"
-    return 0x55555555
+    def __neg__(self):
+        """Returns the largest value
+
+        The opposite of negative infinity is infinity, the largest value.
+
+        >>> print(-Smallest())
+        ~
+        """
+        return Largest()
+
+    def __eq__(self, other):
+        return other.__class__ == self.__class__
+
+    def __lt__(self, other):
+        return not (self == other)
+
+    def __le__(self, other):
+        return True
+
+    def __gt__(self, other):
+        return False
+
+    def __ge__(self, other):
+        return self == other
+
+    def __cmp__(self, other):  # XXX: ignored on python 3
+        """Compares this with another object
+
+        Always indicates that self is less than other, unless both are of
+        type Smallest, in which case they are equal.
+
+        >>> 0 < Smallest()
+        False
+        >>> -9999999 < Smallest()
+        False
+        >>> Smallest() < -9999999
+        True
+        >>> Smallest() < Smallest()
+        False
+        >>> Smallest() == Smallest()
+        True
+        """
+        if other.__class__ == self.__class__:
+            retval = 0
+        else:
+            retval = -1
+        return retval
+
+    def __str__(self):
+        """Returns a printable representation of this value
+
+        The string for the smallest number is -~, which means negative
+        infinity.
+
+        >>> print(Smallest())
+        -~
+        """
+        return "-~"
+
+    def __repr__(self):
+        """Returns an evaluable representation of the object
+
+        The representation of the smallest number is -Inf, which means
+        negative infinity.
+
+        >>> Smallest()
+        -Inf
+        """
+        return "-Inf"
+
+    def __hash__(self):
+        "Returns a value that can be used for generating hashes"
+        return 0x55555555
 
 
 class Largest:
-  """Class representing the universal largest value
-  
-  This type doesn't do much; it implements a pseudo-value that's larger
-  than everything but itself.
-  
-  >>> infinity = Largest()
-  >>> greatest = Largest()
-  >>> 6234 < infinity
-  True
-  >>> 6234 == infinity
-  False
-  >>> 6234 > infinity
-  False
-  >>> infinity > infinity
-  False
-  >>> infinity == greatest
-  True
-  """
-  
-  def __neg__(self):
-    """Returns the smallest universal value
-    
-    The opposite of infinity is negative infinity, the smallest value.
+    """Class representing the universal largest value
 
-    >>> print(-Largest())
-    -~
-    """
-    return Smallest()
-    
-  def __cmp__(self, other):
-    """Compares object with another object
-    
-    Always indicates that self is greater than other, unless both are of
-    type Largest, in which case they are equal.
-    
+    This type doesn't do much; it implements a pseudo-value that's larger
+    than everything but itself.
+
+    >>> infinity = Largest()
+    >>> greatest = Largest()
+    >>> 6234 < infinity
+    True
+    >>> 6234 == infinity
+    False
+    >>> 6234 > infinity
+    False
+    >>> infinity > infinity
+    False
+    >>> infinity == greatest
+    True
     >>> 0 > Largest()
     False
     >>> Largest() < 9999999
@@ -171,34 +181,78 @@ class Largest:
     >>> Largest() == Largest()
     True
     """
-    if other.__class__ == self.__class__:
-        retval = 0
-    else:
-        retval = 1
-    return retval
 
-  def __str__(self):
-      """Returns a string representation of the object
-      
-      The largest number is displayed as ~ (it sort of looks like infinity...)
-      
-      >>> print(Largest())
-      ~
-      """
-      return "~"
-    
-  def __repr__(self):
-    """Returns an evaluable expression representing this object
-    
-    >>> Largest()
-    Inf
-    """
-    return "Inf"
+    def __neg__(self):
+        """Returns the smallest universal value
 
-  def __hash__(self):
-    "Returns a value that can be used for generating hashes"
-    return -0x55555555
-    
+        The opposite of infinity is negative infinity, the smallest value.
+
+        >>> print(-Largest())
+        -~
+        """
+        return Smallest()
+
+    def __eq__(self, other):
+        return self.__class__ == other.__class__
+
+    def __lt__(self, other):
+        return False
+
+    def __le__(self, other):
+        return self == other
+
+    def __ge__(self, other):
+        return True
+
+    def __gt__(self, other):
+        return not (self == other)
+
+    def __cmp__(self, other):  # XXX: ignored on python 3
+        """Compares object with another object
+
+        Always indicates that self is greater than other, unless both are of
+        type Largest, in which case they are equal.
+
+        >>> 0 > Largest()
+        False
+        >>> Largest() < 9999999
+        False
+        >>> Largest() > 9999999
+        True
+        >>> Largest() < Largest()
+        False
+        >>> Largest() == Largest()
+        True
+        """
+        if other.__class__ == self.__class__:
+            retval = 0
+        else:
+            retval = 1
+        return retval
+
+    def __str__(self):
+        """Returns a string representation of the object
+
+        The largest number is displayed as ~ (it sort of looks like
+        infinity...)
+
+        >>> print(Largest())
+        ~
+        """
+        return "~"
+
+    def __repr__(self):
+        """Returns an evaluable expression representing this object
+
+        >>> Largest()
+        Inf
+        """
+        return "Inf"
+
+    def __hash__(self):
+        "Returns a value that can be used for generating hashes"
+        return -0x55555555
+
 
 Inf = Largest()
 # Use -Inf for the smallest value      
@@ -413,7 +467,19 @@ class Interval:
         return self.lower_bound != self.upper_bound \
             or (self.upper_closed and self.lower_closed)
 
-    def __cmp__(self, other):
+    def __lt__(self, other):
+        return self.comes_before(other)
+
+    def __gt__(self, other):
+        return not (self == other) and not self < other
+
+    def __le__(self, other):
+        return self < other or self == other
+
+    def __ge__(self, other):
+        return self > other or self == other
+
+    def __cmp__(self, other):  # XXX: ignored on python 3
         """Compares two intervals for ordering purposes
         
         >>> Interval.equal_to(-1) < Interval.equal_to(2)
@@ -1642,9 +1708,8 @@ class BaseIntervalSet(object):
         """
         return self.__class__.all() - self
 
-    def __cmp__(self, other):
+    def __cmp__(self, other): # XXX: ignored on python 3
         """Compares two BaseIntervalSets
-        
         Like set, raises a TypeError when invoked.
         >>> IntervalSet().__cmp__(IntervalSet())
         Traceback (most recent call last):
