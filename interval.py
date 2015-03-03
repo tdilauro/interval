@@ -265,6 +265,22 @@ class Interval:
     are called lower_bound, lower_closed, upper_bound, and upper_closed,
     respectively.  For an infinite interval, the bound is set to inf or 
     -inf.  IntervalSets are composed of zero to many Intervals.
+
+    Comparisons:
+        >>> Interval.equal_to(-1) < Interval.equal_to(2)
+        True
+        >>> Interval.equal_to(-1) == Interval.equal_to(2)
+        False
+        >>> Interval.equal_to(-1) > Interval.equal_to(2)
+        False
+        >>> Interval.between(2, 5) > Interval.between(2, 4)
+        True
+        >>> Interval.between(2, 5) == Interval.between(2, 4)
+        False
+        >>> Interval.between(2, 5) == Interval.between(2, 5)
+        True
+        >>> Interval.between(2, 5) >= Interval.between(2, 5)
+        True
     """
 
     def __init__(self, lower_bound=-Inf, upper_bound=Inf, **kwargs):
