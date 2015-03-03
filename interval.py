@@ -399,7 +399,7 @@ class Interval:
             retval = "".join([lbchar, lstr, between, ustr, ubchar])
         return retval
 
-    def __nonzero__(self):
+    def __bool__(self):
         """Tells whether the interval is empty
         
         >>> if Interval(12, 12, closed=False):
