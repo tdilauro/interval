@@ -2439,7 +2439,7 @@ class FrozenIntervalSet(BaseIntervalSet):
             result = items
         else:
             s = IntervalSet(items)
-            result = super(FrozenIntervalSet, cls).__new__(cls, items)
+            result = super().__new__(cls)
             result.intervals = s.intervals
         return result
     
